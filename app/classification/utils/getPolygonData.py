@@ -10,10 +10,9 @@ stdDevReducer = ee.Reducer.stdDev()
 def getPolygonData(
     image: ee.Image,
     band: str,
-    feature: ee.Feature,
+    geom: ee.Geometry,
     round: int = 3
-) -> object:
-    geom = feature.geometry()
+) -> dict:
 
     reduceMean = image.reduceRegion(
         meanReducer,
