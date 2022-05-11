@@ -4,7 +4,6 @@ numpy
 scipy
 Pillow
 matplotlib
-opencv-contrib-python
 scikit-image
 scikit-learn
 sentinelhub

@@ -3,7 +3,8 @@ import ee
 import LANDSAT_LC08_C02_T1_L2
 
 def get(
-    aoi: ee.FeatureCollection,
+    # aoi: ee.FeatureCollection,
+    aoi, # ee.FeatureCollection or ee.Feature
     startDate: str, # YYYY-MM-DD format
     endDate: str # YYYY-MM-DD format
 ) -> ee.Image :

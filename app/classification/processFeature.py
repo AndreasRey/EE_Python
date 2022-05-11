@@ -17,5 +17,11 @@ def processFeature(
     function
 ):
     output = ee.FeatureCollection(geojsonCollection(features)).map(function)
-    geemap.ee_export_geojson(output, './data/output/test_' +  str(suffix) + '.geojson')
-    print("processed " + str(suffix) + " chunks")
+    geemap.ee_export_geojson(output, './data/output/NER_geom_' +  str(suffix) + '.geojson')
+    print("processed " + str(suffix) + " chunk")
+
+def processFeature2(
+    features
+):
+    output = ee.FeatureCollection(geojsonCollection(features))
+    return output
