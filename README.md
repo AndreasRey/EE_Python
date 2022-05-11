@@ -29,6 +29,17 @@ conda install conda-build
 
 https://veillecarto2-0.fr/2019/12/11/tutorial-create-an-anaconda-environment-for-pyqgis-development/
 
+To install the conda env using the requirements.txt file type :
+```conda create --name ee --file requirements.txt```
+
+Update the requirements.txt file : after installing new packages, you can re-generate the requirements.txt file using :
+```conda list -e > requirements.txt```
+
+To run the project using conda type :
+```conda activate ee```
+
+To run the Auth script you'll need to have the Google Cloud CLI installed : https://cloud.google.com/sdk/docs/install
+
 ## Sources
 
 Docker project taken from -> https://github.com/bkavlak/geemap_docker

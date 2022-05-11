@@ -12,6 +12,7 @@ ee.Initialize()
 import imagery
 import sampleRegions
 import imageToVectors
+import fromJsonToCsv
 import getPolygonData
 import trainClassifier
 
@@ -122,16 +123,19 @@ with open('./data/input/GMB/GMB_intersection8.geojson', 'r') as file:
         # single_valueFile = open('./data/output/GMB_values/' + str(uid) + '.json', 'w')
         with open('./data/output/GMB_values/' + str(uid) + '.json', 'w') as single_valueFile:
           json.dump(props, single_valueFile)
-        # single_valueFile.close()
+          single_valueFile.close()
 
     # all_valuesFile = open('./data/output/GMB_values/' + 'VALUES' + '.json', 'w')
     with open('./data/output/GMB_values/' + 'VALUES' + '.json', 'w') as all_valuesFile:
       json.dump(values, all_valuesFile)
+      all_valuesFile.close()
+    
+    fromJsonToCsv('./data/output/GMB_values/' + 'VALUES' + '.json', './data/output/GMB_values/' + 'VALUES' + '.csv')
 
     time_loop_end = datetime.now()
     duration_loop = time_loop_end - time_loop_start
     print('##### Processed ' + str(length) + ' features in ' + str(duration_loop))
-  
+    file.close()
 
 time_end = datetime.now()
 duration_all = time_end - time_start
