@@ -13,7 +13,21 @@ Once the container is up and running, it's CLI should be accessible through the 
 
 ### Using Conda
 
-(If you haven't installed Conda on your system, please follow these instructions : https://developers.google.com/earth-engine/guides/python_install-conda#install_conda)
+(If you haven't installed Conda on your system, please follow these instructions : https://developers.google.com/earth-engine/guides/python_install-conda#install_conda)7
+
+Install on Windows :
+```powershell -command "Invoke-WebRequest -Uri https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe -OutFile ~\miniconda.exe"```
+
+```start /B /WAIT %UserProfile%\miniconda.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D=%UserProfile%\miniconda3```
+
+```del %UserProfile%\miniconda.exe```
+
+Test Miniconda install :
+```%UserProfile%\miniconda3\condabin\activate```
+```conda --help```
+
+Add Miniconda to environment variables :
+```setx Path "%Path%%UserProfile%\miniconda3\condabin;"```
 
 First of all, make sure the "conda-forge" channel is added to your current conda configuration (it you appear in the channels list when typing the following: ```conda config --show channels```)
 
