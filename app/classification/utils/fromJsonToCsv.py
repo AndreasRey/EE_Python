@@ -38,5 +38,3 @@ def fromJsonToCsv(
 
         data_file.close()
         json_file.close()
-
-fromJsonToCsv('../data/output/archives/2/GMB_values/VALUES.json', '../data/output/archives/2/GMB_values/VALUES.csv')
