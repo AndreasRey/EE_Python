@@ -90,17 +90,17 @@ with open('./data/input/NER/NER_Intersection_Test.geojson', 'r') as file:
           imageForValues = image.select(['NDVI']).clip(geom)
           indicators = getPolygonData.getPolygonData(imageForValues, 'NDVI', geom, 4)
           props['area_sqm'] = area_Classification_sqM.getInfo()
-          props['croplands_min'] = indicators['min'].getInfo()
-          props['croplands_mean'] = indicators['mean'].getInfo()
-          props['croplands_max'] = indicators['max'].getInfo()
-          props['croplands_stddev'] = indicators['stdDev'].getInfo()
+          props['croplands_ndvi_min'] = indicators['min'].getInfo()
+          props['croplands_ndvi_mean'] = indicators['mean'].getInfo()
+          props['croplands_ndvi_max'] = indicators['max'].getInfo()
+          props['croplands_ndvi_stddev'] = indicators['stdDev'].getInfo()
         else:
           time_values_start = datetime.now()
           props['area_sqm'] = 0
-          props['croplands_min'] = -999
-          props['croplands_mean'] = -999
-          props['croplands_max'] = -999
-          props['croplands_stddev'] = -999
+          props['croplands_ndvi_min'] = -999
+          props['croplands_ndvi_mean'] = -999
+          props['croplands_ndvi_max'] = -999
+          props['croplands_ndvi_stddev'] = -999
   
         time_values_end = datetime.now()
         duration_values = time_values_end - time_values_start
