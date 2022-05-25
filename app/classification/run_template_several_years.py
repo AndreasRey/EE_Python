@@ -21,12 +21,7 @@ subNameField = 'adm1_name'
 ## Extent : path (rel. to main.py) to the geojson file containing the extent polygon geometry
 extent = './data/input/TEST/Test_Extent.geojson'
 
-## Define the dates range for selecting images (to be classified with our classifier previously trained)
-## classificationImage_year : year, string formatted as YYYY
-classificationImage_year = '2006'
 
-## outputFolder : location path for the generated values file outputs
-outputFolder = './data/output/TEST_newImagerySingle_' + classificationImage_year +'/'
 
 ## Training data : path to the geojson file containing the training points (must be located within the provided extent)
 ### Should be points,
@@ -66,30 +61,35 @@ referenceImage_startDate = '2020-01-01'
 ### Default :
 referenceImage_endDate = '2020-12-31'
 
-## OPTIONAL outputFolder_Images : location path for the generated images file outputs
-### Default :
-outputFolder_images = outputFolder + 'images/'
-
-## OPTIONAL outputFolder_Vectors : location path for the generated vectors file outputs
-### Default :
-outputFolder_vectors = outputFolder + 'vectors/'
-
-run.run(
-  bands,
-  aoi,
-  subNameField,
-  extent,
-  outputFolder,
-  trainingDataset,
-  classificationImage_year,
-  outputMode,
-  classificationImage_startDate,
-  classificationImage_endDate,
-  nameProp,
-  referenceImage_startDate,
-  referenceImage_endDate,
-  outputFolder_images,
-  outputFolder_vectors
-)
 
 for x in years:
+    ## Define the dates range for selecting images (to be classified with our classifier previously trained)
+    ## classificationImage_year : year, string formatted as YYYY
+    classificationImage_year = x
+
+    ## outputFolder : location path for the generated values file outputs
+    outputFolder = './data/output/TESTING_NewImagery_' + classificationImage_year +'/'
+    ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
+    ### Default :
+    outputFolder_images = outputFolder + 'images/'
+
+    ## OPTIONAL outputFolder_Vectors : location path for the generated vectors file outputs
+    ### Default :
+    outputFolder_vectors = outputFolder + 'vectors/'
+    run.run(
+        bands,
+        aoi,
+        subNameField,
+        extent,
+        outputFolder,
+        trainingDataset,
+        classificationImage_year,
+        outputMode,
+        classificationImage_startDate,
+        classificationImage_endDate,
+        nameProp,
+        referenceImage_startDate,
+        referenceImage_endDate,
+        outputFolder_images,
+        outputFolder_vectors
+    )
