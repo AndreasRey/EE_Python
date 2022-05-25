@@ -24,6 +24,14 @@ def run (
   outputFolder_vectors: str
 ):
 
+  # Tests if destinations exist
+  if not os.path.exists(outputFolder):
+    os.makedirs(outputFolder)
+  if not os.path.exists(outputFolder_images):
+    os.makedirs(outputFolder_images)
+  if not os.path.exists(outputFolder_vectors):
+    os.makedirs(outputFolder_vectors)
+
   file_exists = os.path.exists(outputFolder + 'batch.json')
   print(file_exists)
   if (file_exists == False):

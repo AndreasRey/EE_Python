@@ -52,7 +52,7 @@ def exports.run (prefixFileName, suffixFileName, classifiers, regions, periods, 
     training = sampleRegions(referenceImage.image, bands, trainingDataset, scales[0])
 
 
-def func_xuj (region):
+def func_jct (region):
     aoi = region.full
 #    LayerUtils.AddUnfilledPolygonLayer(aoi, '000000', 'AoI')
     subRegions = region.subs
@@ -155,7 +155,7 @@ def func_xuj (region):
       })).flatten()
     })).flatten()
 
-  output = ee.FeatureCollection(regions.map(func_xuj
+  output = ee.FeatureCollection(regions.map(func_jct
 )).flatten()
 
 
@@ -300,14 +300,14 @@ def exports.exportESA (prefixFileName, suffixFileName, regions):
   croplands_ESA = SourceCrops.crops_ESA_WorldCover_v100(regions[0].full)
   subRegions = regions[0].subs
 
-def func_uqz (feature):
+def func_tcj (feature):
     subCroplands_ESA = imageToVectors(croplands_ESA, feature, 10)
     return ee.Feature(None, {
       'name': 'ESA',
       'geom': subCroplands_ESA.geom
     })
 
-  esa = ee.FeatureCollection(subRegions.map(func_uqz
+  esa = ee.FeatureCollection(subRegions.map(func_tcj
 ))
 
 
@@ -328,14 +328,14 @@ def func_uqz (feature):
 def exports.exportAoI (prefixFileName, suffixFileName, regions):
   subRegions = regions[0].subs
 
-def func_ewl (feature):
+def func_btr (feature):
     subName = feature.get(regions[0].subName)
     return ee.Feature(None, {
       'name': subName,
       'geom': feature.geometry()
     })
 
-  aoi = ee.FeatureCollection(subRegions.map(func_ewl
+  aoi = ee.FeatureCollection(subRegions.map(func_btr
 ))
 
 

@@ -4,7 +4,8 @@ sys.path.append('./utils/')
 import run
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
-bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
+# bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
+bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
 
 ## AoI : path (rel. to main.py) to the geojson file containing the polygon geometries on which we want to run the extraction
 aoi = './data/input/TEST/test_GMB.geojson'
@@ -15,8 +16,12 @@ subNameField = 'adm1_name'
 ## Extent : path (rel. to main.py) to the geojson file containing the extent polygon geometry
 extent = './data/input/TEST/Test_Extent.geojson'
 
+## Define the dates range for selecting images (to be classified with our classifier previously trained)
+## classificationImage_year : year, string formatted as YYYY
+classificationImage_year = '2006'
+
 ## outputFolder : location path for the generated values file outputs
-outputFolder = './data/output/TEST_single_values/'
+outputFolder = './data/output/TEST_newImagerySingle_' + classificationImage_year +'/'
 
 ## Training data : path to the geojson file containing the training points (must be located within the provided extent)
 ### Should be points,
@@ -24,9 +29,7 @@ outputFolder = './data/output/TEST_single_values/'
 ### the value used for classify croplands is the following : 0
 trainingDataset = './data/input/GMB/GMB_samplePoints.geojson'
 
-## Define the dates range for selecting images (to be classified with our classifier previously trained)
-## classificationImage_year : year, string formatted as YYYY
-classificationImage_year = '2021'
+
 
 
 
@@ -60,11 +63,11 @@ referenceImage_endDate = '2020-12-31'
 
 ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
 ### Default :
-outputFolder_images = './data/output/images/'
+outputFolder_images = outputFolder + 'images/'
 
 ## OPTIONAL outputFolder_Vectors : location path for the generated vectors file outputs
 ### Default :
-outputFolder_vectors = './data/output/vectors/'
+outputFolder_vectors = outputFolder + 'vectors/'
 
 run.run(
   bands,
