@@ -4,24 +4,24 @@ sys.path.append('./utils/')
 import run
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
-# bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
+#bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
 bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
 
 ## AoI : path (rel. to main.py) to the geojson file containing the polygon geometries on which we want to run the extraction
-aoi = './data/input/TEST/test_GMB.geojson'
+aoi = './data/input/testing_gmb.geojson'
 
 ## subNameField : foreign identifier for aoi geometries (used to aggregate the resulting chunked aoi geometry parts)
 subNameField = 'adm1_name'
 
 ## Extent : path (rel. to main.py) to the geojson file containing the extent polygon geometry
-extent = './data/input/TEST/Test_Extent.geojson'
+extent = './data/input/testing_gmb.geojson'
 
 ## Define the dates range for selecting images (to be classified with our classifier previously trained)
 ## classificationImage_year : year, string formatted as YYYY
-classificationImage_year = '2006'
+classificationImage_year = '2015'
 
 ## outputFolder : location path for the generated values file outputs
-outputFolder = './data/output/TEST_newImagerySingle_' + classificationImage_year +'/'
+outputFolder = './data/output/TEST_New_' + classificationImage_year +'/'
 
 ## Training data : path to the geojson file containing the training points (must be located within the provided extent)
 ### Should be points,
@@ -39,7 +39,7 @@ trainingDataset = './data/input/GMB/GMB_samplePoints.geojson'
 ### Default :
 # outputMode = 1
 
-outputMode = 3
+outputMode = 2
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :

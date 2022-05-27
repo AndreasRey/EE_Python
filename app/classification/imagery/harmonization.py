@@ -75,11 +75,14 @@ def getHarmonizedCollection(
   endDoy = ee.Date(endDate).getRelative('day', 'year')
   # Define a collection filter.
   colFilter = ee.Filter.And(
-      ee.Filter.bounds(aoi), ee.Filter.calendarRange(startDoy, endDoy, 'day_of_year'))
-    #   ee.Filter.lt('CLOUD_COVER', 50), ee.Filter.lt('GEOMETRIC_RMSE_MODEL', 10),
-    #   ee.Filter.Or(
-    #       ee.Filter.eq('IMAGE_QUALITY', 9),
-    #       ee.Filter.eq('IMAGE_QUALITY_OLI', 9)))
+      # ee.Filter.bounds(aoi), ee.Filter.calendarRange(startDoy, endDoy, 'day_of_year'),
+      # ee.Filter.lt('CLOUD_COVER', 50), ee.Filter.lt('GEOMETRIC_RMSE_MODEL', 10),
+      # ee.Filter.Or(
+      #     ee.Filter.eq('IMAGE_QUALITY', 9),
+      #     ee.Filter.eq('IMAGE_QUALITY_OLI', 9))
+
+      ee.Filter.bounds(aoi), ee.Filter.calendarRange(startDoy, endDoy, 'day_of_year')
+    )
 
   # Filter collections and prepare them for merging.
   oliCol = oliCol.filter(colFilter).map(prepOli)
@@ -87,7 +90,9 @@ def getHarmonizedCollection(
   tmCol = tmCol.filter(colFilter).map(prepEtm)
 
   # Merge the collections.
-  col = oliCol.merge(etmCol).merge(tmCol)
+  #col = oliCol.merge(etmCol).merge(tmCol)
+  col = tmCol
+  print('##### - Imagery dataset size: ' + str(col.size().getInfo()))
 
   # Filter the collection
   filtered = col.filterDate(startDate, endDate).filterBounds(aoi.geometry().bounds())
@@ -100,6 +105,8 @@ def ref(
     endDate: str # YYYY-MM-DD format
 ) -> ee.Image:
     imageCollection = getHarmonizedCollection(aoi, startDate, endDate)
+    # TODO : Understand why the size is 0 now althought it wasmore than 400 in getHarmonizedCollection (tmCol only)
+    print('##### - Imagery dataset size AGAIN : ' + str(imageCollection.size().getInfo()))
     image = imageCollection.reduce('mean').clip(aoi)
     print(image.bandNames().getInfo())
     return calculateExtraBands.calculateExtraBands(image, NIR, Red, SWIR)

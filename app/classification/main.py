@@ -46,6 +46,8 @@ def main (
   # subNameField = 'rowcacode1'
   trainingDataset = geemap.geojson_to_ee(trainingDatasetPath)
   referenceImage = imagery.get(extent, referenceStart, referenceEnd)
+  print('##### - bands : ' + ' '.join(referenceImage.bandNames().getInfo()))
+  print('##### - size : ' + str(referenceImage.bandNames().getInfo()))
   trained = trainClassifier.trainClassifier(referenceImage, bands, trainingDataset)
 
   image = imagery.get(extent, classificationStart, classificationEnd)
@@ -94,10 +96,10 @@ def main (
         # Export the classified image clipped with the featureCollection geometry
         singleImage = croplands_classification.clip(filtered.geometry())
         
-        # if (outputMode > 1):
+        if (outputMode > 1):
           # Download classified croplands images
-          # geemap.ee_export_image(singleImage, outputFolder_images + str(uid) + '.tif', 30)
-          # print('##### ' + outputFolder_images + str(uid) + '.tif' + ' exported')
+          geemap.ee_export_image(singleImage, outputFolder_images + str(uid) + '.tif', 30)
+          print('##### ' + outputFolder_images + str(uid) + '.tif' + ' exported')
         
         time_image_end = datetime.now()
         duration_image = time_image_end - time_image_start
@@ -209,7 +211,7 @@ def main (
       traceback.print_tb(e.__traceback__)
       with open(outputFolder + 'batch.json', 'r') as batchRefFile:
         fileRef = json.load(batchRefFile)
-        if fileRef['attempts'] > 4:
+        if fileRef['attempts'] > 1:
           fileRef['attempts'] = 0
           featureIndex = featureIndex + 1
           if featureIndex < length:

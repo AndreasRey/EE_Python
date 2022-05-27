@@ -5,7 +5,8 @@ import run
 
 
 #years = ['2015', '2017', '2019', '2021']
-years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
+# years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
+years = ['1995']
 
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
@@ -13,13 +14,13 @@ years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019',
 bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
 
 ## AoI : path (rel. to main.py) to the geojson file containing the polygon geometries on which we want to run the extraction
-aoi = './data/input/TEST/test_GMB.geojson'
+aoi = './data/input/testing_gmb.geojson'
 
 ## subNameField : foreign identifier for aoi geometries (used to aggregate the resulting chunked aoi geometry parts)
 subNameField = 'adm1_name'
 
 ## Extent : path (rel. to main.py) to the geojson file containing the extent polygon geometry
-extent = './data/input/TEST/Test_Extent.geojson'
+extent = './data/input/testing_extent_gmb.geojson'
 
 
 
@@ -39,7 +40,7 @@ trainingDataset = './data/input/GMB/GMB_samplePoints.geojson'
 ### Default :
 # outputMode = 1
 
-outputMode = 3
+outputMode = 2
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :
@@ -68,7 +69,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './data/output/TESTING_NewImagery_' + classificationImage_year +'/'
+    outputFolder = './data/output/TEST_D_' + 'HarmoFiltered' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'
