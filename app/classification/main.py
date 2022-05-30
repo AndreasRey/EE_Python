@@ -27,6 +27,7 @@ def main (
   trainingDatasetPath: str,
   classificationStart: str,
   classificationEnd: str,
+  timeRef: str, # the time reference to output as a string in the final result
   nameProp: str,
   referenceStart: str,
   referenceEnd: str,
@@ -45,12 +46,17 @@ def main (
   # nameProp = 'uid'
   # subNameField = 'rowcacode1'
   trainingDataset = geemap.geojson_to_ee(trainingDatasetPath)
+
+  # Get the reference image for the reference year to train the classifier with.
   referenceImage = imagery.get(extent, referenceStart, referenceEnd)
-  print('##### - bands : ' + ' '.join(referenceImage.bandNames().getInfo()))
-  print('##### - size : ' + str(referenceImage.bandNames().getInfo()))
+  print('##### Reference Image (Classifier) - bands : ' + ' '.join(referenceImage.bandNames().getInfo()))
+  # print('##### Reference Image (Classifier) - size : ' + str(referenceImage.size().getInfo()))
   trained = trainClassifier.trainClassifier(referenceImage, bands, trainingDataset)
 
+  # Provide an image to be classified.
   image = imagery.get(extent, classificationStart, classificationEnd)
+  print('##### Image for classification - bands : ' + ' '.join(image.bandNames().getInfo()))
+  # print('##### Image for classification - size : ' + str(image.size().getInfo()))
   classified = image.select(bands).classify(trained)
   croplands_classification = classified.eq(0).selfMask()
 
@@ -111,7 +117,7 @@ def main (
         
         props = {
           'id': uid,
-          'period': '2021',
+          'period': timeRef,
           'subregion': subName
         }
         time_values_start = datetime.now()

@@ -12,7 +12,9 @@ def provideDataset(
     startDate: str, # YYYY-MM-DD format
     endDate: str # YYYY-MM-DD format
 ) -> ee.ImageCollection:
-    return ee.ImageCollection(dataset).filterDate(startDate, endDate).filterBounds(aoi.geometry().bounds()).map(bandsScaleFactor)
+    imageCollection = ee.ImageCollection(dataset).filterDate(startDate, endDate).filterBounds(aoi.geometry().bounds()).map(bandsScaleFactor)
+    print('##### - LC08_C02_T1_L2 | Imagery dataset size : ' + str(imageCollection.size().getInfo()))
+    return imageCollection
 
 def bandsScaleFactor(
     image: ee.Image

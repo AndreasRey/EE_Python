@@ -6,7 +6,8 @@ import run
 
 #years = ['2015', '2017', '2019', '2021']
 # years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
-years = ['1995']
+# years = ['1995']
+years = ['2020']
 
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
@@ -69,7 +70,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './data/output/TEST_D_' + 'HarmoFiltered' + '_' + classificationImage_year +'/'
+    outputFolder = './data/output/TEST_E_' + 'HarmoFiltered' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'

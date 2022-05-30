@@ -90,9 +90,10 @@ def getHarmonizedCollection(
   tmCol = tmCol.filter(colFilter).map(prepEtm)
 
   # Merge the collections.
-  #col = oliCol.merge(etmCol).merge(tmCol)
-  col = tmCol
-  print('##### - Imagery dataset size: ' + str(col.size().getInfo()))
+  # col = oliCol.merge(etmCol).merge(tmCol)
+  col = oliCol
+  # col = tmCol
+  # print('##### - Imagery dataset size: ' + str(col.size().getInfo()))
 
   # Filter the collection
   filtered = col.filterDate(startDate, endDate).filterBounds(aoi.geometry().bounds())
@@ -106,7 +107,7 @@ def ref(
 ) -> ee.Image:
     imageCollection = getHarmonizedCollection(aoi, startDate, endDate)
     # TODO : Understand why the size is 0 now althought it wasmore than 400 in getHarmonizedCollection (tmCol only)
-    print('##### - Imagery dataset size AGAIN : ' + str(imageCollection.size().getInfo()))
+    print('##### - Harmonization | Imagery dataset size : ' + str(imageCollection.size().getInfo()))
     image = imageCollection.reduce('mean').clip(aoi)
     print(image.bandNames().getInfo())
     return calculateExtraBands.calculateExtraBands(image, NIR, Red, SWIR)
