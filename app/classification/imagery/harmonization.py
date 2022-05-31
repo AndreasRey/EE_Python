@@ -1,4 +1,5 @@
 import ee
+import datetime
 import calculateExtraBands
 
 NIR = "NIR_mean"
@@ -59,17 +60,18 @@ def prepEtm(img):
   img = etmToOli(img)
   return ee.Image(img.copyProperties(orig, orig.propertyNames()))
 
+# date format
+format = '%Y-%m-%d'
+
+# thresholds
+date_2012 = datetime.datetime.strptime('2011-12-31', format)
+date_2013 = datetime.datetime.strptime('2012-12-31', format)
+
 def getHarmonizedCollection(
   aoi: ee.FeatureCollection,
   startDate: str,
   endDate: str
 ) -> ee.ImageCollection :
-
-  # Get Landsat surface reflectance collections for OLI, ETM+ and TM sensors.
-  oliCol = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  etmCol = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR')
-  tmCol = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
-
 
   startDoy = ee.Date(startDate).getRelative('day', 'year')
   endDoy = ee.Date(endDate).getRelative('day', 'year')
@@ -84,14 +86,32 @@ def getHarmonizedCollection(
       ee.Filter.bounds(aoi), ee.Filter.calendarRange(startDoy, endDoy, 'day_of_year')
     )
 
-  # Filter collections and prepare them for merging.
-  oliCol = oliCol.filter(colFilter).map(prepOli)
-  etmCol = etmCol.filter(colFilter).map(prepEtm)
-  tmCol = tmCol.filter(colFilter).map(prepEtm)
+  dateStart = datetime.datetime.strptime(startDate, format)
+  dateEnd = datetime.datetime.strptime(endDate, format)
+
+  if dateEnd <= date_2012 :
+    # L5
+    col = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR').filter(colFilter).map(prepEtm)
+  elif (dateEnd <= date_2013) & (dateStart >= date_2012) :
+    # L7
+    col = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR').filter(colFilter).map(prepEtm)
+  elif dateStart > date_2013 :
+    # L8
+    col = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR').filter(colFilter).map(prepOli)
+
+  # # Get Landsat surface reflectance collections for OLI, ETM+ and TM sensors.
+  # oliCol = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  # etmCol = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR')
+  # tmCol = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
+
+  # # Filter collections and prepare them for merging.
+  # oliCol = oliCol.filter(colFilter).map(prepOli)
+  # etmCol = etmCol.filter(colFilter).map(prepEtm)
+  # tmCol = tmCol.filter(colFilter).map(prepEtm)
 
   # Merge the collections.
   # col = oliCol.merge(etmCol).merge(tmCol)
-  col = oliCol
+  # col = oliCol
   # col = tmCol
   # print('##### - Imagery dataset size: ' + str(col.size().getInfo()))
 
@@ -106,8 +126,8 @@ def ref(
     endDate: str # YYYY-MM-DD format
 ) -> ee.Image:
     imageCollection = getHarmonizedCollection(aoi, startDate, endDate)
-    # TODO : Understand why the size is 0 now althought it wasmore than 400 in getHarmonizedCollection (tmCol only)
-    print('##### - Harmonization | Imagery dataset size : ' + str(imageCollection.size().getInfo()))
+    size = str(imageCollection.size().getInfo())
+    print('##### - Harmonization | Imagery dataset size : ' + size)
     image = imageCollection.reduce('mean').clip(aoi)
-    print(image.bandNames().getInfo())
-    return calculateExtraBands.calculateExtraBands(image, NIR, Red, SWIR)
+    calculated = calculateExtraBands.calculateExtraBands(image, NIR, Red, SWIR)
+    return { "image": calculated, "collectionSize": size }

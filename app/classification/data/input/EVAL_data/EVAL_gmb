@@ -1,0 +1,3 @@
+- Selected 3 features (admin 2) belonging to the same admin 1 area as the testing initial aoi. (init_aoi.geojson)
+- Created init_aoi_extent.geojson and init_aoi_intersection.geojson using the QGIS model model_chunck_AoI.model3
+- Created init_Aoi_merged.geojson manually (QGIS dissolve processing)

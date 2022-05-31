@@ -48,17 +48,18 @@ def main (
   trainingDataset = geemap.geojson_to_ee(trainingDatasetPath)
 
   # Get the reference image for the reference year to train the classifier with.
-  referenceImage = imagery.get(extent, referenceStart, referenceEnd)
-  print('##### Reference Image (Classifier) - bands : ' + ' '.join(referenceImage.bandNames().getInfo()))
+  referenceImageData = imagery.get(extent, referenceStart, referenceEnd)
+  print('##### Reference Image (Classifier) - bands : ' + ' '.join(referenceImageData["image"].bandNames().getInfo()))
   # print('##### Reference Image (Classifier) - size : ' + str(referenceImage.size().getInfo()))
-  trained = trainClassifier.trainClassifier(referenceImage, bands, trainingDataset)
+  trained = trainClassifier.trainClassifier(referenceImageData["image"], bands, trainingDataset)
 
   # Provide an image to be classified.
-  image = imagery.get(extent, classificationStart, classificationEnd)
-  print('##### Image for classification - bands : ' + ' '.join(image.bandNames().getInfo()))
+  imageData = imagery.get(extent, classificationStart, classificationEnd)
+  print('##### Image for classification - bands : ' + ' '.join(imageData["image"].bandNames().getInfo()))
   # print('##### Image for classification - size : ' + str(image.size().getInfo()))
-  classified = image.select(bands).classify(trained)
+  classified = imageData["image"].select(bands).classify(trained)
   croplands_classification = classified.eq(0).selfMask()
+  obs = imageData["collectionSize"]
 
   table = geemap.geojson_to_ee(aoiPath)
   count = 0
@@ -118,7 +119,8 @@ def main (
         props = {
           'id': uid,
           'period': timeRef,
-          'subregion': subName
+          'subregion': subName,
+          'obs': obs
         }
         time_values_start = datetime.now()
         if subCroplands_Classification.size().getInfo() > 0:
@@ -134,7 +136,7 @@ def main (
           time_values_start = datetime.now()
           geom = subCroplands_Classification.geometry()
           area_Classification_sqM = geemap.ee_num_round(geom.area(1), 0)
-          imageForValues = image.select(['NDVI']).clip(geom)
+          imageForValues = imageData["image"].select(['NDVI']).clip(geom)
           indicators = getPolygonData.getPolygonData(imageForValues, 'NDVI', geom, 4)
           props['area_sqm'] = area_Classification_sqM.getInfo()
           props['croplands_ndvi_min'] = indicators['min'].getInfo()

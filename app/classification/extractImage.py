@@ -4,6 +4,10 @@ ee.Initialize()
 
 import geemap
 
+geojsonPath = './data/input/EVAL_data/init_aoi_merged.geojson'
+uid = 'fid'
+outputFolder = './data/input/EVAL_data/temp/'
+
 dataset_ESA_WorldCover_v100 = ee.ImageCollection("ESA/WorldCover/v100").filterDate('2020-01-01', '2020-12-31')
 def ESA_WorldCover_v100 (
     aoi: ee.FeatureCollection
@@ -21,19 +25,20 @@ def ESA_WorldCover_v100 (
 # image = ESA_WorldCover_v100(table)
 # geemap.ee_export_image(image, './data/output/image6.tif', 10)
 
-table = geemap.geojson_to_ee('./data/input/grid_NER84.geojson')
+table = geemap.geojson_to_ee(geojsonPath)
 
 count = 0
-with open('./data/input/grid_NER84.geojson', 'r') as file:
+with open(geojsonPath, 'r') as file:
     data = json.load(file)
     print(len(data['features']))
     for x in data['features']:
-        id = str(x['properties']['id'])
-        filtered = table.filter("id == " + id)
-        filePath = './data/output/filter_geojson_' + str(count) + '.geojson'
+        id = str(x['properties'][str(uid)])
+        filtered = table.filter(str(uid) + " == " + str(id))
+        # filePath = './data/output/filter_geojson_' + str(count) + '.geojson'
         # print(filePath)
         # geemap.ee_export_geojson(filtered, filePath)
         image = ESA_WorldCover_v100(filtered)
-        geemap.ee_export_image(image, './data/output/image' + str(count) + '.tif', 10)
-        print(count)
+        geemap.ee_export_image(image, outputFolder + 'image_' + str(count) + '.tif', 10)
+        
         count += count + 1
+        print(count)

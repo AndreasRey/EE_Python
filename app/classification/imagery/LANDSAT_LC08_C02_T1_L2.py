@@ -13,7 +13,6 @@ def provideDataset(
     endDate: str # YYYY-MM-DD format
 ) -> ee.ImageCollection:
     imageCollection = ee.ImageCollection(dataset).filterDate(startDate, endDate).filterBounds(aoi.geometry().bounds()).map(bandsScaleFactor)
-    print('##### - LC08_C02_T1_L2 | Imagery dataset size : ' + str(imageCollection.size().getInfo()))
     return imageCollection
 
 def bandsScaleFactor(
@@ -29,5 +28,8 @@ def ref(
     endDate: str # YYYY-MM-DD format
 ) -> ee.Image:
     imageCollection = provideDataset(aoi, startDate, endDate)
+    size = str(imageCollection.size().getInfo())
+    print('##### - LC08_C02_T1_L2 | Imagery dataset size : ' + size)
     image = imageCollection.reduce('mean').clip(aoi)
-    return calculateExtraBands.calculateExtraBands(image, NIR, Red, SWIR)
+    calculated = calculateExtraBands.calculateExtraBands(image, NIR, Red, SWIR)
+    return { "image": calculated, "collectionSize": size }

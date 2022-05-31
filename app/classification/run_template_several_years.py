@@ -7,7 +7,7 @@ import run
 #years = ['2015', '2017', '2019', '2021']
 # years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
 # years = ['1995']
-years = ['2020']
+years = ['1998']
 
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
@@ -41,7 +41,7 @@ trainingDataset = './data/input/GMB/GMB_samplePoints.geojson'
 ### Default :
 # outputMode = 1
 
-outputMode = 2
+outputMode = 3
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :
@@ -70,7 +70,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './data/output/TEST_E_' + 'HarmoFiltered' + '_' + classificationImage_year +'/'
+    outputFolder = './data/output/TEST_G_' + 'HarmoFiltered' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'
