@@ -7,7 +7,7 @@ import run
 #years = ['2015', '2017', '2019', '2021']
 # years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
 # years = ['1995']
-years = ['2012', '2021', '1986']
+years = ['2020']
 
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
