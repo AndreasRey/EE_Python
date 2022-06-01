@@ -1,3 +1,5 @@
+# FROM https://developers.google.com/earth-engine/tutorials/community/landsat-etm-to-oli-harmonization
+
 import ee
 import datetime
 import calculateExtraBands
