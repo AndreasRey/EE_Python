@@ -70,7 +70,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './eval/output/TEST_2_' + 'harmonized' + '_' + classificationImage_year +'/'
+    outputFolder = './eval/output/TEST_3_' + 'harmonized' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'
