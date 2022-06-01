@@ -123,6 +123,7 @@ def main (
           'obs': obs
         }
         time_values_start = datetime.now()
+        
         if subCroplands_Classification.size().getInfo() > 0:
           if (outputMode > 2):
             # Download classified croplands vectors
@@ -145,6 +146,7 @@ def main (
           props['croplands_ndvi_max'] = indicators['max'].getInfo()
           props['croplands_ndvi_stddev'] = indicators['stdDev'].getInfo()
         else:
+          duration_vector = 0
           time_values_start = datetime.now()
           props['area_sqm'] = 0
           props['croplands_ndvi_min'] = -999
