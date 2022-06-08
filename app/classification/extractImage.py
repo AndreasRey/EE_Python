@@ -4,9 +4,9 @@ ee.Initialize()
 
 import geemap
 
-geojsonPath = './eval/EVAL_data2/init_aoi_extent.geojson'
+geojsonPath = './eval/EVAL_data3/init_aoi_extent.geojson'
 uid = 'fid'
-outputFolder = './eval/EVAL_data2/temp/'
+outputFolder = './eval/EVAL_data3/temp/'
 
 dataset_ESA_WorldCover_v100 = ee.ImageCollection("ESA/WorldCover/v100").filterDate('2020-01-01', '2020-12-31')
 def ESA_WorldCover_v100 (
