@@ -2,7 +2,7 @@ import ee
 
 import calculateExtraBands
 
-dataset = "LANDSAT/LC08/C01/T1_SR"
+dataset = "LANDSAT/LE07/C01/T1_SR"
 NIR = "NIR_mean"
 Red = "Red_mean"
 SWIR = "SWIR1_mean"
@@ -13,16 +13,26 @@ coefficients = {
   'slopes': ee.Image.constant([0.8474, 0.8483, 0.9047, 0.8462, 0.8937, 0.9071])
 }
 
-# Define function to get and rename bands of interest from OLI.
-def renameOli(img):
+# Define function to get and rename bands of interest from ETM+.
+def renameEtm(img):
   return img.select(
-      ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'pixel_qa'],
+      ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'pixel_qa'],
       ['Blue', 'Green', 'Red', 'NIR', 'SWIR1', 'SWIR2', 'pixel_qa'])
 
-# Define function to prepare OLI images.
-def prepOli(img):
+# Define function to apply harmonization transformation.
+def etmToOli(img):
+  return img.select(['Blue', 'Green', 'Red', 'NIR', 'SWIR1', 'SWIR2']) \
+      .multiply(coefficients['slopes']) \
+      .add(coefficients['itcps']) \
+      .round() \
+      .toShort() \
+      .addBands(img.select('pixel_qa'))
+
+# Define function to prepare ETM+ images.
+def prepEtm(img):
   orig = img
-  img = renameOli(img)
+  img = renameEtm(img)
+  img = etmToOli(img)
   return ee.Image(img.copyProperties(orig, orig.propertyNames()))
 
 def provideDataset(
@@ -30,7 +40,7 @@ def provideDataset(
     startDate: str, # YYYY-MM-DD format
     endDate: str # YYYY-MM-DD format
 ) -> ee.ImageCollection:
-    imageCollection = ee.ImageCollection(dataset).filterDate(startDate, endDate).filterBounds(aoi.geometry().bounds()).map(prepOli)
+    imageCollection = ee.ImageCollection(dataset).filterDate(startDate, endDate).filterBounds(aoi.geometry().bounds()).map(prepEtm)
     return imageCollection
 
 def ref(
@@ -40,7 +50,7 @@ def ref(
 ) -> ee.Image:
     imageCollection = provideDataset(aoi, startDate, endDate)
     size = str(imageCollection.size().getInfo())
-    print('##### - LC08_C01_T1_SR | Imagery dataset size : ' + size)
+    print('##### - LC07_C01_T1_SR | Imagery dataset size : ' + size)
     image = imageCollection.reduce('mean').clip(aoi)
     calculated = calculateExtraBands.calculateExtraBands(image, NIR, Red, SWIR)
     return { "image": calculated, "collectionSize": size }

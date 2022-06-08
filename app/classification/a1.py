@@ -4,15 +4,16 @@ sys.path.append('./utils/')
 import assessment_run
 
 
-#years = ['2015', '2017', '2019', '2021']
+# years = ['2015', '2017', '2019', '2021']
 # years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
 # years = ['1995']
 years = ['2020', '2015', '2010', '2005', '2000', '1995', '1990', '1985']
 
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
+bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'ST_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
 # bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
-bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
+# bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
 
 ## AoI : path (rel. to main.py) to the geojson file containing the polygon geometries on which we want to run the extraction
 aoi = './data/input/testing_gmb.geojson'
@@ -41,7 +42,7 @@ trainingDataset = './data/input/GMB/GMB_samplePoints.geojson'
 ### Default :
 # outputMode = 1
 
-outputMode = 0
+outputMode = 1
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :
@@ -70,7 +71,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './data/assessments/LANDSAT_LC08_C02_T1_L2' + '_' + classificationImage_year +'/'
+    outputFolder = './data/assessments/LANDSAT_LT05_C02_T1_L2' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'
