@@ -3,6 +3,6 @@
 "name": "init_aoi_extent",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "MINX": 2.066894, "MINY": 12.96527, "MAXX": 2.38201, "MAXY": 13.291688, "CNTX": 2.224452, "CNTY": 13.128479, "AREA": 0.10285953448799945, "PERIM": 1.283068, "HEIGHT": 0.326418, "WIDTH": 0.315116, "fid": 1 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 2.066894, 12.96527 ], [ 2.38201, 12.96527 ], [ 2.38201, 13.291688 ], [ 2.066894, 13.291688 ], [ 2.066894, 12.96527 ] ] ] } }
+{ "type": "Feature", "properties": { "MINX": 2.066894, "MINY": 12.96527, "MAXX": 2.38201, "MAXY": 13.291688, "CNTX": 2.224452, "CNTY": 13.128479, "AREA": 0.10285953448799945, "PERIM": 1.283068, "HEIGHT": 0.326418, "WIDTH": 0.315116, "uid": 0 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 2.066894, 12.96527 ], [ 2.38201, 12.96527 ], [ 2.38201, 13.291688 ], [ 2.066894, 13.291688 ], [ 2.066894, 12.96527 ] ] ] } }
 ]
 }

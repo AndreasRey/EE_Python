@@ -103,7 +103,7 @@ def assessment (
 
         subName = x['properties'][subNameField]
         count = i + 1
-        print('##### ' + str(count) + '/' + str(length) + ' - feature id: ' + str(uid) + ' (' + subName + ')')
+        print('##### ' + str(count) + '/' + str(length) + ' - feature id: ' + str(uid) + ' (' + str(subName) + ')')
 
         # Export the classified image clipped with the featureCollection geometry
         imageData = imagery.get(filtered, classificationStart, classificationEnd)
@@ -131,7 +131,7 @@ def assessment (
 
         props['duration_total'] = str(duration_feature)
 
-        print('##### feature id: ' + str(uid) + ' (' + subName + ')' + ' done in ' + str(duration_feature))
+        print('##### feature id: ' + str(uid) + ' (' + str(subName) + ')' + ' done in ' + str(duration_feature))
         values.append(props)
         # single_valueFile = open('./data/output/GMB_values/' + str(uid) + '.json', 'w')
         with open(outputFolder + str(uid) + '.json', 'w') as single_valueFile:

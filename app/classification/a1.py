@@ -11,18 +11,21 @@ years = ['2020', '2015', '2010', '2005', '2000', '1995', '1990', '1985']
 
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
-bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'ST_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
+# bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'ST_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
 # bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
-# bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
+bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
 
 ## AoI : path (rel. to main.py) to the geojson file containing the polygon geometries on which we want to run the extraction
-aoi = './data/input/testing_gmb.geojson'
+# aoi = './data/input/testing_gmb.geojson'
+aoi = './eval/EVAL_data3/init_aoi_extent.geojson'
 
 ## subNameField : foreign identifier for aoi geometries (used to aggregate the resulting chunked aoi geometry parts)
-subNameField = 'adm1_name'
+# subNameField = 'adm1_name'
+subNameField = 'uid'
 
 ## Extent : path (rel. to main.py) to the geojson file containing the extent polygon geometry
-extent = './data/input/testing_extent_gmb.geojson'
+# extent = './data/input/testing_extent_gmb.geojson'
+extent = './eval/EVAL_data3/init_aoi_extent.geojson'
 
 
 
@@ -42,7 +45,7 @@ trainingDataset = './data/input/GMB/GMB_samplePoints.geojson'
 ### Default :
 # outputMode = 1
 
-outputMode = 1
+outputMode = 0
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :
@@ -54,6 +57,7 @@ classificationImage_endDate = '12-31'
 
 ## OPTIONAL nameProp : unique identifier for aoi geometries
 ### Default :
+# nameProp = 'fid'
 nameProp = 'uid'
 
 ## OPTIONAL referenceImage_startDate (to train the classifier on)
@@ -71,7 +75,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './data/assessments/LANDSAT_LT05_C02_T1_L2' + '_' + classificationImage_year +'/'
+    outputFolder = './data/assessments/NER_harmonisation' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'

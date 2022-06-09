@@ -97,7 +97,7 @@ def main (
 
         subName = x['properties'][subNameField]
         count = i + 1
-        print('##### ' + str(count) + '/' + str(length) + ' - feature id: ' + str(uid) + ' (' + subName + ')')
+        print('##### ' + str(count) + '/' + str(length) + ' - feature id: ' + str(uid) + ' (' + str(subName) + ')')
 
         time_image_start = datetime.now()
         # Export the classified image clipped with the featureCollection geometry
@@ -110,7 +110,7 @@ def main (
         
         time_image_end = datetime.now()
         duration_image = time_image_end - time_image_start
-        print('##### feature id: ' + str(uid) + ' (' + subName + ')' + ' Image processed successfully in ' + str(duration_image))
+        print('##### feature id: ' + str(uid) + ' (' + str(subName) + ')' + ' Image processed successfully in ' + str(duration_image))
 
         # Export the croplands geometry and the calculated values
         time_vector_start = datetime.now()
