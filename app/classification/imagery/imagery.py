@@ -2,9 +2,10 @@ import ee
 
 import LANDSAT_LC08_C02_T1_L2
 import LANDSAT_LC08_C01_T1_SR
+import LANDSAT_LE07_C02_T1_L2
 import LANDSAT_LE07_C01_T1_SR
-import LANDSAT_LT05_C01_T1_SR
 import LANDSAT_LT05_C02_T1_L2
+import LANDSAT_LT05_C01_T1_SR
 import harmonization
 
 def get(

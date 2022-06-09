@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./app/classification/utils"
+        "./app/classification/utils",
+        "./app/classification/imagery"
     ]
 }
