@@ -34,7 +34,6 @@ for x in unique:
     else:
         min = float(filteredMin['croplands_ndvi_min'].min())
     props['croplands_ndvi_min'] = min
-    # props['croplands_ndvi_mean'] = np.average(a = filtered['croplands_ndvi_mean'], weights = filtered['area_sqm'])
     props['croplands_ndvi_mean'] = float(wc.Calculator('area_sqm').mean(filtered, 'croplands_ndvi_mean'))
     props['croplands_ndvi_median'] = float(wc.Calculator('area_sqm').median(filtered, 'croplands_ndvi_median'))
     props['croplands_ndvi_max'] = float(filtered['croplands_ndvi_max'].max())

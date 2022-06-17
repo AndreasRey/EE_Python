@@ -4,4 +4,4 @@ app/classification/data/output
 app/imported
 todo
 tests
-docker/home
+js/node_modules
