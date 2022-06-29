@@ -15,7 +15,7 @@ years = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","
 bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
 
 ## AoI : path (rel. to main.py) to the geojson file containing the polygon geometries on which we want to run the extraction
-aoi = './testing/NER_tillaberi_niamey_dosso/input/intersection.geojson'
+aoi = './testing/NER_tillaberi_niamey_dosso/input/intersection_few.geojson'
 
 ## subNameField : foreign identifier for aoi geometries (used to aggregate the resulting chunked aoi geometry parts)
 subNameField = 'adm_03'
