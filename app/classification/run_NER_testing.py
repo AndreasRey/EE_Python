@@ -7,8 +7,8 @@ import run
 #years = ['2015', '2017', '2019', '2021']
 # years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
 # years = ['1995']
-years = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"]
-
+# years = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"]
+years = ['2000', '2005', '2010', '2012', '2015', '2020']
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
 # bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
@@ -41,7 +41,7 @@ trainingDataset = './data/input/NER/NER_Training_Test_2.geojson'
 ### Default :
 # outputMode = 1
 
-outputMode = 1
+outputMode = 2
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :
@@ -70,7 +70,11 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
+<<<<<<< HEAD
     outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_2' + '_' + classificationImage_year +'/'
+=======
+    outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_3_GEOM-2' + '_' + classificationImage_year +'/'
+>>>>>>> 43394438bb4a1a85935a3268b7dd5aa17ad85a6b
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'
