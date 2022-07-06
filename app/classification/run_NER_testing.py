@@ -7,16 +7,16 @@ import run
 #years = ['2015', '2017', '2019', '2021']
 # years = ['1985', '1990', '1995', '2000', '2005', '2010', '2015', '2017', '2019', '2021']
 # years = ['1995']
-# years = ["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"]
+years = ["2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021"]
 # years = ["2013","2014","2015","2016","2017","2018","2019","2020","2021"]
-years = ["2021"]
+# years = ["2021"]
 
 ## Bands used for both classification and values retrieval. Make sure it matches the imagery provided
 # bands = ['SR_B2_mean', 'SR_B3_mean', 'SR_B4_mean', 'SR_B5_mean', 'SR_B6_mean', 'SR_B7_mean', 'NDVI', 'NDWI', 'SAVI']
 bands = ['Blue_mean', 'Green_mean', 'Red_mean', 'NIR_mean', 'SWIR1_mean', 'SWIR2_mean', 'NDVI', 'NDWI', 'SAVI']
 
 ## AoI : path (rel. to main.py) to the geojson file containing the polygon geometries on which we want to run the extraction
-aoi = './testing/NER_tillaberi_niamey_dosso/input/intersection.geojson'
+aoi = './testing/NER_tillaberi_niamey_dosso/input/intersection_say.geojson'
 
 ## subNameField : foreign identifier for aoi geometries (used to aggregate the resulting chunked aoi geometry parts)
 subNameField = 'adm_03'
@@ -42,7 +42,7 @@ trainingDataset = './data/input/NER/NER_Training_Test_2.geojson'
 ### Default :
 # outputMode = 1
 
-outputMode = 1
+outputMode = 3
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :
@@ -71,7 +71,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_3' + '_' + classificationImage_year +'/'
+    outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_4_GEOM' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'
