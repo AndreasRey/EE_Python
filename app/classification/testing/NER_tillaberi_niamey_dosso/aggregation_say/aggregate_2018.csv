@@ -1,0 +1,2 @@
+period,subregion,obs,area_sqm,croplands_ndvi_min,croplands_ndvi_mean,croplands_ndvi_median,croplands_ndvi_max,croplands_ndvi_stddev
+2018,Say,356,235215012,0.0452,0.21597732933176902,0.2099,0.3736,0.005981005542628407

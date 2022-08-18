@@ -1,0 +1,4 @@
+id,period,subregion,obs,area_sqm,croplands_ndvi_min,croplands_ndvi_mean,croplands_ndvi_median,croplands_ndvi_max,croplands_ndvi_stddev,duration_image,duration_vector,duration_values,duration_total
+220,2021,Tamou,352,178726186,0.0808,0.2189,0.2178,0.3839,0.0248,0:00:00.000049,0:00:18.565344,0:00:35.937402,0:00:54.503135
+221,2021,Ouro Guéladjo,352,3448823,0.111,0.2142,0.2117,0.3135,0.0291,0:00:00.000055,0:00:06.700923,0:00:18.934722,0:00:25.635973
+222,2021,Say,352,95587784,0.0667,0.2109,0.208,0.3604,0.0299,0:00:00.000056,0:00:10.606399,0:00:29.314643,0:00:39.921321
