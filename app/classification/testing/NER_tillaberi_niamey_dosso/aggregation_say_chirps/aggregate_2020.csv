@@ -1,0 +1,2 @@
+period,subregion,obs,area_sqm,croplands_ndvi_min,croplands_ndvi_mean,croplands_ndvi_median,croplands_ndvi_max,croplands_ndvi_stddev,chirps_precipitations_min,chirps_precipitations_mean,chirps_precipitations_median,chirps_precipitations_max,chirps_precipitations_stddev
+2020,Say,348,190198580,0.0776,0.2049489835817912,0.2022,0.3506,0.0012018331268301543,1.9705,2.0885996489747716,2.052,2.2411,0.014916869985950737

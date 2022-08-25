@@ -124,8 +124,14 @@ def main (
             'obs': obs
           }
           time_values_start = datetime.now()
+
+
           
           if subCroplands_Classification.size().getInfo() > 0:
+            # EXTRA STATISTICS
+            ## CHIRPS
+            chirpsImage = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY').filter(ee.Filter.date(referenceStart, referenceEnd)).filterBounds(subCroplands_Classification.geometry().bounds()).reduce('mean').clip(subCroplands_Classification)
+
             if (outputMode > 2):
               # Download classified croplands vectors
               geemap.ee_export_geojson(subCroplands_Classification, outputFolder_vectors + str(uid) + '.geojson')
@@ -146,6 +152,16 @@ def main (
             props['croplands_ndvi_median'] = indicators['median'].getInfo()
             props['croplands_ndvi_max'] = indicators['max'].getInfo()
             props['croplands_ndvi_stddev'] = indicators['stdDev'].getInfo()
+            
+            # CHIRPS
+            imageForValuesChirps = chirpsImage.select(['precipitation_mean']).clip(geom)
+            indicatorsChirps = getPolygonData.getPolygonData(imageForValuesChirps, 'precipitation_mean', geom, 4)
+            props['chirps_precipitations_min'] = indicatorsChirps['min'].getInfo()
+            props['chirps_precipitations_mean'] = indicatorsChirps['mean'].getInfo()
+            props['chirps_precipitations_median'] = indicatorsChirps['median'].getInfo()
+            props['chirps_precipitations_max'] = indicatorsChirps['max'].getInfo()
+            props['chirps_precipitations_stddev'] = indicatorsChirps['stdDev'].getInfo()
+
           else:
             duration_vector = 0
             time_values_start = datetime.now()
@@ -155,7 +171,12 @@ def main (
             props['croplands_ndvi_median'] = -999
             props['croplands_ndvi_max'] = -999
             props['croplands_ndvi_stddev'] = -999
-    
+            props['chirps_precipitations_min'] = -999
+            props['chirps_precipitations_mean'] = -999
+            props['chirps_precipitations_median'] = -999
+            props['chirps_precipitations_max'] = -999
+            props['chirps_precipitations_stddev'] = -999
+
           time_values_end = datetime.now()
           duration_values = time_values_end - time_values_start
 

@@ -1,0 +1,2 @@
+period,subregion,obs,area_sqm,croplands_ndvi_min,croplands_ndvi_mean,croplands_ndvi_median,croplands_ndvi_max,croplands_ndvi_stddev,chirps_precipitations_min,chirps_precipitations_mean,chirps_precipitations_median,chirps_precipitations_max,chirps_precipitations_stddev
+2014,Say,345,181968795,0.0572,0.21104343707612067,0.1944,0.3801,0.008758521077897138,1.8957,2.115385578280606,2.1376,2.2938,0.006762324892447168
