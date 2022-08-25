@@ -60,6 +60,8 @@ def main (
     # print('##### Image for classification - size : ' + str(image.size().getInfo()))
     classified = imageData["image"].select(bands).classify(trained)
     croplands_classification = classified.eq(0).selfMask()
+    non_croplands_classification = classified.neq(0).selfMask()
+
     obs = imageData["collectionSize"]
 
     table = geemap.geojson_to_ee(aoiPath)
@@ -102,11 +104,12 @@ def main (
 
           time_image_start = datetime.now()
           # Export the classified image clipped with the featureCollection geometry
-          singleImage = croplands_classification.clip(filtered.geometry())
+          singleImage_croplands = croplands_classification.clip(filtered.geometry())
+          singleImage_noncroplands = non_croplands_classification.clip(filtered.geometry())
           
           if (outputMode > 1):
             # Download classified croplands images
-            geemap.ee_export_image(singleImage, outputFolder_images + str(uid) + '.tif', 30)
+            geemap.ee_export_image(singleImage_croplands, outputFolder_images + str(uid) + '.tif', 30)
             print('##### ' + outputFolder_images + str(uid) + '.tif' + ' exported')
           
           time_image_end = datetime.now()
@@ -115,7 +118,8 @@ def main (
 
           # Export the croplands geometry and the calculated values
           time_vector_start = datetime.now()
-          subCroplands_Classification = imageToVectors.imageToVectors(singleImage, filtered.first())
+          subCroplands_Classification = imageToVectors.imageToVectors(singleImage_croplands, filtered.first())
+          non_subCroplands_Classification = imageToVectors.imageToVectors(singleImage_noncroplands, filtered.first())
           
           props = {
             'id': uid,
@@ -130,8 +134,10 @@ def main (
           if subCroplands_Classification.size().getInfo() > 0:
             # EXTRA STATISTICS
             ## CHIRPS
-            chirpsImage = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY').filter(ee.Filter.date(referenceStart, referenceEnd)).filterBounds(subCroplands_Classification.geometry().bounds()).reduce('mean').clip(subCroplands_Classification)
-
+            chirpsSource = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY').filter(ee.Filter.date(referenceStart, referenceEnd)).filterBounds(subCroplands_Classification.geometry().bounds())
+            obs_chirps = str(chirpsSource.size().getInfo())
+            chirpsImage = chirpsSource.reduce('mean').clip(subCroplands_Classification)
+            props['obs_chirps'] = obs_chirps
             if (outputMode > 2):
               # Download classified croplands vectors
               geemap.ee_export_geojson(subCroplands_Classification, outputFolder_vectors + str(uid) + '.geojson')
@@ -142,40 +148,80 @@ def main (
             print('##### feature id: ' + str(uid) + ' (' + subName + ')' + ' Vectors processed successfully in ' + str(duration_vector))
 
             time_values_start = datetime.now()
-            geom = subCroplands_Classification.geometry()
-            area_Classification_sqM = geemap.ee_num_round(geom.area(1), 0)
-            imageForValues = imageData["image"].select(['NDVI']).clip(geom)
-            indicators = getPolygonData.getPolygonData(imageForValues, 'NDVI', geom, 4)
-            props['area_sqm'] = area_Classification_sqM.getInfo()
-            props['croplands_ndvi_min'] = indicators['min'].getInfo()
-            props['croplands_ndvi_mean'] = indicators['mean'].getInfo()
-            props['croplands_ndvi_median'] = indicators['median'].getInfo()
-            props['croplands_ndvi_max'] = indicators['max'].getInfo()
-            props['croplands_ndvi_stddev'] = indicators['stdDev'].getInfo()
+            geom_croplands = subCroplands_Classification.geometry()
+            area_Classification_sqM = geemap.ee_num_round(geom_croplands.area(1), 0)
+            imageForValues = imageData["image"].select(['NDVI']).clip(geom_croplands)
+            indicators = getPolygonData.getPolygonData(imageForValues, 'NDVI', geom_croplands, 4)
+            props['area_sqm_crops'] = area_Classification_sqM.getInfo()
+            props['crops_ndvi_min'] = indicators['min'].getInfo()
+            props['crops_ndvi_mean'] = indicators['mean'].getInfo()
+            props['crops_ndvi_median'] = indicators['median'].getInfo()
+            props['crops_ndvi_max'] = indicators['max'].getInfo()
+            props['crops_ndvi_stddev'] = indicators['stdDev'].getInfo()
             
             # CHIRPS
-            imageForValuesChirps = chirpsImage.select(['precipitation_mean']).clip(geom)
-            indicatorsChirps = getPolygonData.getPolygonData(imageForValuesChirps, 'precipitation_mean', geom, 4)
-            props['chirps_precipitations_min'] = indicatorsChirps['min'].getInfo()
-            props['chirps_precipitations_mean'] = indicatorsChirps['mean'].getInfo()
-            props['chirps_precipitations_median'] = indicatorsChirps['median'].getInfo()
-            props['chirps_precipitations_max'] = indicatorsChirps['max'].getInfo()
-            props['chirps_precipitations_stddev'] = indicatorsChirps['stdDev'].getInfo()
+            imageForValuesChirps = chirpsImage.select(['precipitation_mean']).clip(geom_croplands)
+            indicatorsChirps = getPolygonData.getPolygonData(imageForValuesChirps, 'precipitation_mean', geom_croplands, 4)
+            props['crops_chirps_min'] = indicatorsChirps['min'].getInfo()
+            props['crops_chirps_mean'] = indicatorsChirps['mean'].getInfo()
+            props['crops_chirps_median'] = indicatorsChirps['median'].getInfo()
+            props['crops_chirps_max'] = indicatorsChirps['max'].getInfo()
+            props['crops_chirps_stddev'] = indicatorsChirps['stdDev'].getInfo()
 
           else:
             duration_vector = 0
             time_values_start = datetime.now()
-            props['area_sqm'] = 0
-            props['croplands_ndvi_min'] = -999
-            props['croplands_ndvi_mean'] = -999
-            props['croplands_ndvi_median'] = -999
-            props['croplands_ndvi_max'] = -999
-            props['croplands_ndvi_stddev'] = -999
-            props['chirps_precipitations_min'] = -999
-            props['chirps_precipitations_mean'] = -999
-            props['chirps_precipitations_median'] = -999
-            props['chirps_precipitations_max'] = -999
-            props['chirps_precipitations_stddev'] = -999
+            props['area_sqm_crops'] = 0
+            props['crops_ndvi_min'] = -999
+            props['crops_ndvi_mean'] = -999
+            props['crops_ndvi_median'] = -999
+            props['crops_ndvi_max'] = -999
+            props['crops_ndvi_stddev'] = -999
+            props['crops_chirps_min'] = -999
+            props['crops_chirps_mean'] = -999
+            props['crops_chirps_median'] = -999
+            props['crops_chirps_max'] = -999
+            props['crops_chirps_stddev'] = -999
+
+          if non_subCroplands_Classification.size().getInfo() > 0:
+            # EXTRA STATISTICS
+            ## CHIRPS
+            chirpsImage = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY').filter(ee.Filter.date(referenceStart, referenceEnd)).filterBounds(non_subCroplands_Classification.geometry().bounds()).reduce('mean').clip(non_subCroplands_Classification)
+
+            geom_noncroplands = non_subCroplands_Classification.geometry()
+            area_Classification_sqM_nonCrops = geemap.ee_num_round(geom_noncroplands.area(1), 0)
+            imageForValues = imageData["image"].select(['NDVI']).clip(geom_noncroplands)
+            indicatorsNonCroplands = getPolygonData.getPolygonData(imageForValues, 'NDVI', geom_noncroplands, 4)
+            props['area_sqm_non_crops'] = area_Classification_sqM_nonCrops.getInfo()
+            props['non_crops_ndvi_min'] = indicatorsNonCroplands['min'].getInfo()
+            props['non_crops_ndvi_mean'] = indicatorsNonCroplands['mean'].getInfo()
+            props['non_crops_ndvi_median'] = indicatorsNonCroplands['median'].getInfo()
+            props['non_crops_ndvi_max'] = indicatorsNonCroplands['max'].getInfo()
+            props['non_crops_ndvi_stddev'] = indicatorsNonCroplands['stdDev'].getInfo()
+            
+            # CHIRPS
+            imageForValuesChirpsNonCroplands = chirpsImage.select(['precipitation_mean']).clip(geom_noncroplands)
+            indicatorsChirpsNonCroplands = getPolygonData.getPolygonData(imageForValuesChirpsNonCroplands, 'precipitation_mean', geom_croplands, 4)
+            props['non_crops_chirps_min'] = indicatorsChirpsNonCroplands['min'].getInfo()
+            props['non_crops_chirps_mean'] = indicatorsChirpsNonCroplands['mean'].getInfo()
+            props['non_crops_chirps_median'] = indicatorsChirpsNonCroplands['median'].getInfo()
+            props['non_crops_chirps_max'] = indicatorsChirpsNonCroplands['max'].getInfo()
+            props['non_crops_chirps_stddev'] = indicatorsChirpsNonCroplands['stdDev'].getInfo()
+
+          else:
+            duration_vector = 0
+            time_values_start = datetime.now()
+            props['area_sqm_non_crops'] = 0
+            props['non_crops_ndvi_min'] = -999
+            props['non_crops_ndvi_mean'] = -999
+            props['non_crops_ndvi_median'] = -999
+            props['non_crops_ndvi_max'] = -999
+            props['non_crops_ndvi_stddev'] = -999
+            props['non_crops_chirps_min'] = -999
+            props['non_crops_chirps_mean'] = -999
+            props['non_crops_chirps_median'] = -999
+            props['non_crops_chirps_max'] = -999
+            props['non_crops_chirps_stddev'] = -999
 
           time_values_end = datetime.now()
           duration_values = time_values_end - time_values_start

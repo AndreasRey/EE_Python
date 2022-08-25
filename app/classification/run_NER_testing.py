@@ -40,9 +40,9 @@ trainingDataset = './data/input/NER/NER_Training_Test_2.geojson'
 
 # OPTIONAL outputMode : int (1 - values, 2 - values + images, 3 - values + images + vectors)
 ### Default :
-# outputMode = 1
+outputMode = 1
 
-outputMode = 3
+# outputMode = 3
 
 ## OPTIONAL classificationImage_startDate : month + day, string formatted as MM-DD
 ### Default :
@@ -71,7 +71,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_6_GEOM' + '_' + classificationImage_year +'/'
+    outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_8' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'
