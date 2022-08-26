@@ -71,7 +71,7 @@ for x in years:
     classificationImage_year = x
 
     ## outputFolder : location path for the generated values file outputs
-    outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_8' + '_' + classificationImage_year +'/'
+    outputFolder = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_9' + '_' + classificationImage_year +'/'
     ## OPTIONAL outputFolder_Images : location path for the generated images file outputs
     ### Default :
     outputFolder_images = outputFolder + 'images/'

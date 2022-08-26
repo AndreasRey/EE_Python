@@ -60,7 +60,7 @@ def main (
     # print('##### Image for classification - size : ' + str(image.size().getInfo()))
     classified = imageData["image"].select(bands).classify(trained)
     croplands_classification = classified.eq(0).selfMask()
-    non_croplands_classification = classified.neq(0).selfMask()
+    non_croplands_classification = classified.gt(0).selfMask()
 
     obs = imageData["collectionSize"]
 

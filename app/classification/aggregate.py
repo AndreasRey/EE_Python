@@ -11,9 +11,9 @@ import csv
 import fromJsonToCsv
 
 year = "2021"
-path = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_8_' + year + '/VALUES.csv'
+path = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_9_' + year + '/VALUES.csv'
 joinAttribute = "subregion"
-outputFolder = './testing/NER_tillaberi_niamey_dosso/aggregation_say_chirps_8/'
+outputFolder = './testing/NER_tillaberi_niamey_dosso/aggregation_say_chirps_9/'
 
 df = pd.read_csv(path)
 unique = pd.unique(df[joinAttribute])
