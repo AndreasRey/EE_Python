@@ -110,7 +110,10 @@ def main (
           if (outputMode > 1):
             # Download classified croplands images
             geemap.ee_export_image(singleImage_croplands, outputFolder_images + str(uid) + '.tif', 30)
-            print('##### ' + outputFolder_images + str(uid) + '.tif' + ' exported')
+            print('##### ' + outputFolder_images + str(uid) + '_croplands.tif' + ' exported')
+
+            geemap.ee_export_image(singleImage_noncroplands, outputFolder_images + str(uid) + '.tif', 30)
+            print('##### ' + outputFolder_images + str(uid) + '_non_croplands.tif' + ' exported')
           
           time_image_end = datetime.now()
           duration_image = time_image_end - time_image_start

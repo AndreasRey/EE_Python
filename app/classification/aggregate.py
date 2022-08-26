@@ -10,10 +10,10 @@ import weightedcalcs as wc
 import csv
 import fromJsonToCsv
 
-year = "2021"
-path = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_9_' + year + '/VALUES.csv'
+year = "2006"
+path = './testing/NER_tillaberi_niamey_dosso/output/TESTING_NER_Say_10_' + year + '/VALUES.csv'
 joinAttribute = "subregion"
-outputFolder = './testing/NER_tillaberi_niamey_dosso/aggregation_say_chirps_9/'
+outputFolder = './testing/NER_tillaberi_niamey_dosso/aggregation_say_chirps_10_test2/'
 
 df = pd.read_csv(path)
 unique = pd.unique(df[joinAttribute])
@@ -21,7 +21,8 @@ unique = pd.unique(df[joinAttribute])
 values = []
 
 for x in unique:
-    filtered = df[(df[joinAttribute] == x) & df['area_sqm_crops'] != 0]
+    # filtered = df[(df[joinAttribute] == x) & df['area_sqm_crops'] != 0]
+    filtered = df[(df[joinAttribute] == x)]
     length = len(filtered)
     if length > 0:
         records = filtered.to_dict('records')
